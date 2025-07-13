@@ -22,9 +22,10 @@ pagina_seleccionada = st.sidebar.selectbox('Selecciona una página', paginas)
 # Paso 4: Hacemos condicionales con la selección del panel lateral
 if pagina_seleccionada == '🏠 Inicio':
     # Paso 5: Crear título de la página y un párrafo
-    st.markdown("<h1 style='text-align: center;'>SPOTIFY USER DATA 2023</h1>", unsafe_allow_html=True)
+    st.markdown("<h1 style='text-align: center;'>Bits & Beats: Análisis de usuarios Spotify 2023</h1>", unsafe_allow_html=True)
     textoinicio = """
-    SPOTIFY USER DATA 2023 consiste en una plataforma informativa sobre los datos de los usuarios en Spotify.
+    ¡Bienvenidos a Bits & Beats! Dentro de esta plataforma van a poder encontrar información sobre los datos de los usuarios en Spotify, las canciones más populares del 2023 y un juego de ahorcado de dichas piezas musicales.
+    A través de este espacio, podrán conocer cómo se comportan los oyentes en la plataforma, qué géneros y artistas dominaron el año, y además entretenerse poniendo a prueba su memoria musical. Todo esto mientras navegan por contenidos dinámicos y gráficos que hacen más fácil y entretenido el análisis de datos.
     """
     st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textoinicio}</div>", unsafe_allow_html=True)
     # Paso 6: Crear división en dos columnas
