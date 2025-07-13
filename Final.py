@@ -224,27 +224,27 @@ elif pagina_seleccionada == '🎮 Juego':
         titulo = st.session_state.titulo
         adivinadas = st.session_state.adivinadas
 
-        if not entrada.replace(" ", "").isalpha():
-            st.warning("Ingresa solo letras.")
+    # Paso 42: Interpretamos la entrada del usuario mediante condicionales
+        if not entrada.replace(" ", "").isalpha(): #si el caracter insertado no es una letra
+            st.warning("Ingresa solo letras.") #advertencia
             return
-        elif len(entrada) == 1:
-            if entrada in adivinadas:
-                st.info("Ya escribiste esa letra.")
+        elif len(entrada) == 1: 
+            if entrada in adivinadas: #si la letra insertada ya fue utilizada
+                st.info("Ya escribiste esa letra.") #aviso ya escribiste esa letra
             elif entrada in titulo:
-                st.session_state.adivinadas.append(entrada)
-                st.success("¡Correcto!")
+                st.session_state.adivinadas.append(entrada) #si la letra es correcta
+                st.success("¡Correcto!") #aviso correcto
             else:
-                st.session_state.adivinadas.append(entrada)
-                st.session_state.intentos -= 1
-                st.error("Incorrecto.")
+                st.session_state.adivinadas.append(entrada) #si la letra es errónea
+                st.session_state.intentos -= 1 #restar 1 intento
+                st.error("Incorrecto.") #aviso incorrecto
         else:
-            if entrada == titulo.strip():
-                st.session_state.estado = "ganado"
-                # Mostrar todo el título: agregar todas las letras a adivinadas
-                st.session_state.adivinadas.extend([letra for letra in titulo if letra.isalpha()])
+            if entrada == titulo.strip(): #si inserta más de una letra y es igual al nombre de la canción
+                st.session_state.estado = "ganado" #aviso juego ganado
+                st.session_state.adivinadas.extend([letra for letra in titulo if letra.isalpha()]) #rellenar el nombre de la canción
             else:
-                st.session_state.intentos -= 1
-                st.error("Título incorrecto.")
+                st.session_state.intentos -= 6 #restar todos los intentos
+                st.error("Título incorrecto.") #aviso título incorrecto
 
         # Verificar fin del juego
         if all(letra in st.session_state.adivinadas or not letra.isalpha() for letra in titulo):
