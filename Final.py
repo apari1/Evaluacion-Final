@@ -184,25 +184,26 @@ elif pagina_seleccionada == '🔍 Buscador':
     # Paso 37: Finalizar condicional en caso de no encontrar resultados
     else:
         st.warning("No se encontraron resultados con los filtros aplicados.")
-        
+
+#siguiente página del panel lateral
 elif pagina_seleccionada == '🎮 Juego': 
-    # Paso 38: Interpretar 
+    # Paso 38: Agregar cache de streamlit y cargar canciones del .xlsx
     @st.cache_data
     def cargar_canciones(ruta):
         df = pd.read_excel(ruta, sheet_name="Hoja 1")
         df = df[["track_name", "artist_name"]].dropna()
         return df.to_dict(orient="records")
-
-    # Iniciar nueva partida
+        
+    # Paso 39: Crear nueva partida con canción aleatoria
     def nueva_partida(canciones):
-        seleccion = random.choice(canciones)
-        st.session_state.titulo = seleccion["track_name"].upper()
-        st.session_state.artista = seleccion["artist_name"]
-        st.session_state.adivinadas = []
-        st.session_state.intentos = 6
-        st.session_state.estado = "jugando"
+        seleccion = random.choice(canciones) # escoger canción aleatoria
+        st.session_state.titulo = seleccion["track_name"].upper() # utilizar dato de la columna track_name (nombre de la canción)
+        st.session_state.artista = seleccion["artist_name"] # utilizar dato de la columna artist_name (artista(s) autor de la canción)
+        st.session_state.adivinadas = [] #establecer sin ninguna letra desbloqueada
+        st.session_state.intentos = 6 # asignar número de intentos
+        st.session_state.estado = "jugando" # establecer estado como "jugando"
 
-    # Mostrar palabra actual
+    # Paso 40: Mostrar palabra actual
     def palabra_actual(titulo, adivinadas):
         resultado = ""
         for letra in titulo:
