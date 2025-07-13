@@ -246,47 +246,46 @@ elif pagina_seleccionada == '🎮 Juego':
                 st.session_state.intentos -= 6 #restar todos los intentos
                 st.error("Título incorrecto.") #aviso título incorrecto
 
-        # Verificar fin del juego
-        if all(letra in st.session_state.adivinadas or not letra.isalpha() for letra in titulo):
-            st.session_state.estado = "ganado"
-        elif st.session_state.intentos <= 0:
-            st.session_state.estado = "perdido"
+        # Paso 43: Verificar fin del juego
+        if all(letra in st.session_state.adivinadas or not letra.isalpha() for letra in titulo): #si todas las letras son adivinadas
+            st.session_state.estado = "ganado" #ganado
+        elif st.session_state.intentos <= 0: #si los intentos llegan a 0
+            st.session_state.estado = "perdido" #perdido
 
-        st.rerun()
-
-    # Cargar canciones
+        st.rerun() #repetir condicionales
+    # Paso 44: Cargar canciones del .xlsx
     canciones = cargar_canciones("MostStreamedSpotifySongs2023.xlsx")
 
-    # Título del juego
+    # Paso 45: Agregar título del juego
     st.title("🎧 Juego del Ahorcado - Canciones de Spotify")
 
-    # Inicializar partida si es la primera vez
+    # Paso 46: Inicializar partida si es la primera vez
     if "estado" not in st.session_state:
         nueva_partida(canciones)
 
-    # Mostrar pista
+    # Paso 47: Mostrar artista de la canción como pista
     st.write(f"🎤 *Artista:* {st.session_state.artista}")
 
-    # Mostrar palabra oculta
+    # Paso 48: Mostrar palabra oculta
     palabra = palabra_actual(st.session_state.titulo, st.session_state.adivinadas)
     st.markdown(f"<h3 style='letter-spacing: 4px;'>{palabra}</h3>", unsafe_allow_html=True)
 
-    # Intentos
+    # Paso 49: Mostrar intentos restantes
     st.write(f"🧠 Intentos restantes: {st.session_state.intentos}")
 
-    # Entrada del jugador
-    if st.session_state.estado == "jugando":
-        entrada = st.text_input("🔡 Escribe una letra o el título completo (solo un intento) y presiona Enter:")
+    # Paso 50: Condicional segun estado del jugador
+    if st.session_state.estado == "jugando": #si esta jugando
+        entrada = st.text_input("🔡 Escribe una letra o el título completo (solo un intento) y presiona Enter:") #indicación del juego en la caja de texto
         if entrada:
-            procesar_entrada(entrada)
+            procesar_entrada(entrada) #procesar lo ingresado por el usuario
 
-    # Mostrar resultado
-    if st.session_state.estado == "ganado":
-        st.success(f"🎉 ¡Ganaste! El título era: **{st.session_state.titulo}**")
-    elif st.session_state.estado == "perdido":
-        st.error(f"❌ Perdiste. El título era: **{st.session_state.titulo}**")
+    # Paso 51: Mostrar resultado
+    if st.session_state.estado == "ganado": #si gana
+        st.success(f"🎉 ¡Ganaste! El título era: **{st.session_state.titulo}**") #aviso ganaste!
+    elif st.session_state.estado == "perdido": #si pierde
+        st.error(f"❌ Perdiste. El título era: **{st.session_state.titulo}**") #aviso perdiste!
 
-    # Botón para reiniciar
-    if st.button("🔁 Jugar de nuevo"):
-        nueva_partida(canciones)
-        st.rerun()
+    # Paso 52: Agregar botón para reiniciar
+    if st.button("🔁 Jugar de nuevo"): #si se presiona
+        nueva_partida(canciones) #nueva ronda
+        st.rerun() #repetir
