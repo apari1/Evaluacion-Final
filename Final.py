@@ -114,7 +114,7 @@ if pagina_seleccionada == '🏠 Inicio':
         color_discrete_map={"Gratis": "#EF553B", "Premium": "#636EFA"} #Asignar colores rojo y azul
     )
     # Paso 21: Agregar rotación a los títulos de barras
-    fig.update_layout(xaxis_tickangle=-45)
+    fig3.update_layout(xaxis_tickangle=-45)
     # Paso 22: Agregar el gráfico, ajustar su anchura
     st.plotly_chart(fig3, use_container_width=True)
 
