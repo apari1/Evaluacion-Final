@@ -28,9 +28,9 @@ weight="700"
 [theme]
 base = "dark"
 baseFontSize = 15
-primaryColor = "#1ED760"
+primaryColor = "#333333"
 backgroundColor = "#121212"
-secondaryBackgroundColor = "#333333"
+secondaryBackgroundColor = "#1ED760"
 textColor = "#FFFFFF"
 linkColor = "#9D9D9D"
 borderColor = "#7F7F7F"
