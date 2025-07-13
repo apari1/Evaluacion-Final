@@ -52,11 +52,11 @@ if pagina_seleccionada == '🏠 Inicio':
         st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf1}</div>", unsafe_allow_html=True)
     
     with col2:
-        # Paso 10: Contar momentos de escucha de cada usuario y asignar columnas
+        # Paso 12: Contar momentos de escucha de cada usuario y asignar columnas
         momentoescucha = SUserBehavior['momento_escucha_música'].value_counts().reset_index()
         momentoescucha.columns = ['Tiempo de escucha', 'Cantidad']
 
-        # Paso 11: Crear grafico circular
+        # Paso 13: Crear grafico circular
         fig2 = px.pie(
             momentoescucha,
             names='Tiempo de escucha',
@@ -64,11 +64,16 @@ if pagina_seleccionada == '🏠 Inicio':
             title='Distribución de tiempo de escucha',
             color_discrete_sequence=px.colors.qualitative.Pastel  #Asignar colores pastel
         )
-        # Paso 12: Agregar etiquetas dentro del gráfico
+        # Paso 14: Agregar etiquetas dentro del gráfico
         fig2.update_traces(textposition='inside', textinfo='percent+label')
 
-        # Paso 13: Mostrar el gráfico
+        # Paso 15: Mostrar el gráfico
         st.plotly_chart(fig2)
+        # Paso 16: Agregar interpretación del gráfico
+        textograf2 = """
+        Una mayor distribución en el tiempo de escucha en la noche indica una preferencia por los usuarios a tiempos más reservados dónde puedan disfrutar de mejor manera el consumo musical. Asimismo, nos resalta la importancia la importancia de adaptar las recomendaciones algorítmicas y las campañas promocionales a estos horarios de mayor actividad.
+        """
+        st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf1}</div>", unsafe_allow_html=True)
     # Paso 14: Contar géneros musicales favoritos de los usuarios y asignar columnas
     conteo = SUserBehavior['género_musical_favorito'].value_counts().reset_index()
     conteo.columns = ['Géneros preferidos', 'N° de usuarios']
