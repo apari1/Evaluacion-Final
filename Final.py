@@ -46,7 +46,7 @@ if pagina_seleccionada == '🏠 Inicio':
         # Paso 10: Mostrar el gráfico
         st.plotly_chart(fig1)
         # Paso 11: Agregar interpretación del gráfico
-        st.write:{f"La mayoría de los usuarios encuestados para la base de datos fueron del género femenino, lo que demuestra su relevancia dentro del público objetivo. Este dato sugiere una mayor participación en ciertos hábitos de consumo musical, preferencias de contenido de la plataforma y comportamientos digitales más activos que otros grupos.
+        st.write:{"La mayoría de los usuarios encuestados para la base de datos fueron del género femenino, lo que demuestra su relevancia dentro del público objetivo. Este dato sugiere una mayor participación en ciertos hábitos de consumo musical, preferencias de contenido de la plataforma y comportamientos digitales más activos que otros grupos.
 "}
     
     with col2:
