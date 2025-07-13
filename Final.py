@@ -39,7 +39,7 @@ if pagina_seleccionada == '🏠 Inicio':
             conteo_genero,
             names="Género",
             values="Cantidad",
-            title="Distribución por género de usuarios",
+            title="Distribución por género",
         )
         # Paso 9: Agregar etiquetas dentro del gráfico
         fig1.update_traces(textposition='inside', textinfo='percent+label')
@@ -61,7 +61,7 @@ if pagina_seleccionada == '🏠 Inicio':
             momentoescucha,
             names='Tiempo de escucha',
             values='Cantidad',
-            title='Distribución de tiempo de escucha',
+            title='Distribución por tiempo de escucha',
             color_discrete_sequence=px.colors.qualitative.Pastel  #Asignar colores pastel
         )
         # Paso 14: Agregar etiquetas dentro del gráfico
