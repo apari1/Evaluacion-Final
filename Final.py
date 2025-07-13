@@ -92,24 +92,24 @@ if pagina_seleccionada == '🏠 Inicio':
     # Paso 20: Agregar interpretación del gráfico
     textograf3 = """
     La mayoría de los usuarios prefieren escuchar melodía por encima de otros géneros, ya que ofrece un efecto de relajación y acompañamiento emocional que se adapta a distintas actividades cotidianas sin interferir en momentos de concentración. Este tipo de música genera una atmósfera tranquila y se distingue por su carácter versátil. De manera similar, el segundo género más escuchado es la música clásica, que comparte estas cualidades al favorecer la calma y el enfoque. Su estructura instrumental, sin letra, facilita la introspección, lo que la convierte en una opción popular durante sesiones de estudio, lectura o meditación.
-Esta preferencia revela una tendencia hacia géneros que no solo entretienen, sino que también cumplen una función práctica dentro de la rutina diaria. En contraste, otros géneros presentes en la gráfica se caracterizan por ritmos más enérgicos y letras que invitan al movimiento o la celebración, siendo más comunes en contextos sociales o recreativos. Esta diversidad en los hábitos de escucha demuestra cómo los usuarios adaptan sus elecciones musicales según el momento y la necesidad emocional o funcional del día.
+    Esta preferencia revela una tendencia hacia géneros que no solo entretienen, sino que también cumplen una función práctica dentro de la rutina diaria. En contraste, otros géneros presentes en la gráfica se caracterizan por ritmos más enérgicos y letras que invitan al movimiento o la celebración, siendo más comunes en contextos sociales o recreativos. Esta diversidad en los hábitos de escucha demuestra cómo los usuarios adaptan sus elecciones musicales según el momento y la necesidad emocional o funcional del día.
     """
     st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf3}</div>", unsafe_allow_html=True)
 
-    # Paso 17: Renombrar columna plan_spotify
+    # Paso 21: Renombrar columna plan_spotify
     SUserBehavior["tipo_plan"] = SUserBehavior["plan_spotify"].apply(
         lambda x: "Gratis" if "Gratis" in x else "Premium"
     )
 
-    # Paso 18: Agrupar por plan y tiempo
+    # Paso 22: Agrupar por plan y tiempo
     tiempo_vs_plan = SUserBehavior.groupby(
         ["tipo_plan", "tiempo_uso_spotify"]
     ).size().reset_index(name="Usuarios")
 
-    # Paso 19: Eliminar respuestas muy raras o poco frecuentes
+    # Paso 23: Eliminar respuestas muy raras o poco frecuentes
     tiempo_vs_plan = tiempo_vs_plan[tiempo_vs_plan["Usuarios"] > 2]
 
-    # Paso 20: Crear gráfico de barras
+    # Paso 24: Crear gráfico de barras
     fig3 = px.bar(
         tiempo_vs_plan,
         x="tiempo_uso_spotify",
@@ -124,35 +124,41 @@ Esta preferencia revela una tendencia hacia géneros que no solo entretienen, si
         },
         color_discrete_map={"Gratis": "#EF553B", "Premium": "#636EFA"} #Asignar colores rojo y azul
     )
-    # Paso 21: Agregar rotación a los títulos de barras
+    # Paso 25: Agregar rotación a los títulos de barras
     fig3.update_layout(xaxis_tickangle=-45)
-    # Paso 22: Agregar el gráfico, ajustar su anchura
+    # Paso 26: Agregar el gráfico, ajustar su anchura
     st.plotly_chart(fig3, use_container_width=True)
+    # Paso 27: Agregar interpretación del grafico
+    textograf4 = """
+    texto de ejemplo
+    """
+    st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf4}</div>", unsafe_allow_html=True)
 
+#siguiente página del panel lateral
 elif pagina_seleccionada == '🔍 Buscador':
-    # Paso 23: Agregar título, subtítulo y espaciado mediante markdown
+    # Paso 28: Agregar título, subtítulo y espaciado mediante markdown
     st.markdown("<h1 style='text-align: center;'>🎧 Las Mejores Canciones</h1>", unsafe_allow_html=True)
     st.markdown(f"<div style='text-align: center; font-size: 25px;'>{"Top 30 canciones 2023"}</div>", unsafe_allow_html=True)
     st.markdown(f"<div style='text-align: center; font-size: 70px;'>{""}</div>", unsafe_allow_html=True)
 
-    # Paso 24: Crear división en tres columnas
+    # Paso 29: Crear división en tres columnas
     col1, col2, col3 = st.columns(3)
-    # Paso 25: Crear caja de texto como buscador
+    # Paso 30: Crear caja de texto como buscador
     with col1:
         nombre = st.text_input("🔍 Buscar por nombre de canción") #busca por nombre de canción en el paso 29
-    # Paso 26: Crear buscador mediante selectbox (widget de selección)
+    # Paso 31: Crear buscador mediante selectbox (widget de selección)
     with col2:
         artistas = sorted(SMostStreamed["artist_name"].unique().tolist()) #busca mediante nombre de artista(s) en el paso 29
         artista = st.selectbox("🎤 Filtrar por artista", options=["Todos"] + artistas)
-    # Paso 27: Crear buscador mediante selectbox (widget de selección)
+    # Paso 32: Crear buscador mediante selectbox (widget de selección)
     with col3:
         años = sorted(SMostStreamed["released_year"].unique().tolist()) #busca mediante año de lanzamiento en el paso 29
         año = st.selectbox("📅 Filtrar por año", options=["Todos"] + años)
 
-    # Paso 28: Crear variable con el contenido del .xlsl
+    # Paso 33: Crear variable con el contenido del .xlsx
     resultados = SMostStreamed.copy()
     
-    # Paso 29: Crear condicionales según cada buscador
+    # Paso 34: Crear condicionales según cada buscador
     if nombre:
         resultados = resultados[resultados["track_name"].str.contains(nombre, case=False, na=False)] #utilizar columna track_name para el buscador
 
@@ -162,10 +168,10 @@ elif pagina_seleccionada == '🔍 Buscador':
     if año != "Todos":
         resultados = resultados[resultados["released_year"] == año] #utilizar columna released_year para el selectbox
 
-    # Paso 30: Mostrar resultados de las canciones
+    # Paso 35: Mostrar resultados de las canciones
     st.markdown("### 🎵 Resultados")
 
-    # Paso 31: Crear condicional en caso de encontrar resultados
+    # Paso 36: Crear condicional en caso de encontrar resultados
     if not resultados.empty:
         for _, row in resultados.iterrows():
             with st.container():
@@ -175,12 +181,12 @@ elif pagina_seleccionada == '🔍 Buscador':
                 st.write(f"**Año de lanzamiento:** {row['released_year']}") #mostrar año de lanzamiento
                 st.write(f"**Reproducciones:** {row['streams']:,}") #mostrar número de reproducciones
                 st.markdown("---") #separar canciones
-    # Paso 32: Finalizar condicional en caso de no encontrar resultados
+    # Paso 37: Finalizar condicional en caso de no encontrar resultados
     else:
         st.warning("No se encontraron resultados con los filtros aplicados.")
         
 elif pagina_seleccionada == '🎮 Juego': 
-    # Paso 33: Interpretar 
+    # Paso 38: Interpretar 
     @st.cache_data
     def cargar_canciones(ruta):
         df = pd.read_excel(ruta, sheet_name="Hoja 1")
