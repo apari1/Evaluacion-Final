@@ -73,11 +73,11 @@ if pagina_seleccionada == '🏠 Inicio':
         textograf2 = """
         Una mayor distribución en el tiempo de escucha en la noche indica una preferencia por los usuarios a tiempos más reservados dónde puedan disfrutar de mejor manera el consumo musical. Asimismo, nos resalta la importancia la importancia de adaptar las recomendaciones algorítmicas y las campañas promocionales a estos horarios de mayor actividad.
         """
-        st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf1}</div>", unsafe_allow_html=True)
-    # Paso 14: Contar géneros musicales favoritos de los usuarios y asignar columnas
+        st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf2}</div>", unsafe_allow_html=True)
+    # Paso 17: Contar géneros musicales favoritos de los usuarios y asignar columnas
     conteo = SUserBehavior['género_musical_favorito'].value_counts().reset_index()
     conteo.columns = ['Géneros preferidos', 'N° de usuarios']
-    # Paso 15: Crear gráfico de barras
+    # Paso 18: Crear gráfico de barras
     fig3 = px.bar(
         conteo,
         x='Géneros preferidos',
@@ -87,8 +87,14 @@ if pagina_seleccionada == '🏠 Inicio':
         color_discrete_sequence=px.colors.qualitative.Pastel #Asignar colores pastel
     )
 
-    # Paso 16: Mostrar el gráfico
+    # Paso 19: Mostrar el gráfico
     st.plotly_chart(fig3)
+    # Paso 20: Agregar interpretación del gráfico
+    textograf3 = """
+    La mayoría de los usuarios prefieren escuchar melodía por encima de otros géneros, ya que ofrece un efecto de relajación y acompañamiento emocional que se adapta a distintas actividades cotidianas sin interferir en momentos de concentración. Este tipo de música genera una atmósfera tranquila y se distingue por su carácter versátil. De manera similar, el segundo género más escuchado es la música clásica, que comparte estas cualidades al favorecer la calma y el enfoque. Su estructura instrumental, sin letra, facilita la introspección, lo que la convierte en una opción popular durante sesiones de estudio, lectura o meditación.
+Esta preferencia revela una tendencia hacia géneros que no solo entretienen, sino que también cumplen una función práctica dentro de la rutina diaria. En contraste, otros géneros presentes en la gráfica se caracterizan por ritmos más enérgicos y letras que invitan al movimiento o la celebración, siendo más comunes en contextos sociales o recreativos. Esta diversidad en los hábitos de escucha demuestra cómo los usuarios adaptan sus elecciones musicales según el momento y la necesidad emocional o funcional del día.
+    """
+    st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf3}</div>", unsafe_allow_html=True)
 
     # Paso 17: Renombrar columna plan_spotify
     SUserBehavior["tipo_plan"] = SUserBehavior["plan_spotify"].apply(
