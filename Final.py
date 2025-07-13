@@ -79,21 +79,21 @@ if pagina_seleccionada == '🏠 Inicio':
     # Paso 16: Mostrar el gráfico
     st.plotly_chart(fig3)
 
-    # Paso 17: 
+    # Paso 17: Renombrar columna plan_spotify
     SUserBehavior["tipo_plan"] = SUserBehavior["plan_spotify"].apply(
         lambda x: "Gratis" if "Gratis" in x else "Premium"
     )
 
-    # Agrupar por plan y tiempo en Spotify
+    # Paso 18: Agrupar por plan y tiempo
     tiempo_vs_plan = SUserBehavior.groupby(
         ["tipo_plan", "tiempo_uso_spotify"]
     ).size().reset_index(name="Usuarios")
 
-    # Eliminar respuestas muy raras o poco frecuentes
+    # Paso 19: Eliminar respuestas muy raras o poco frecuentes
     tiempo_vs_plan = tiempo_vs_plan[tiempo_vs_plan["Usuarios"] > 2]
 
-    # Crear gráfico de barras agrupadas
-    fig = px.bar(
+    # Paso 20: Crear gráfico de barras
+    fig3 = px.bar(
         tiempo_vs_plan,
         x="tiempo_uso_spotify",
         y="Usuarios",
@@ -105,60 +105,65 @@ if pagina_seleccionada == '🏠 Inicio':
             "Usuarios": "Cantidad de usuarios",
             "tipo_plan": "Tipo de plan"
         },
-        color_discrete_map={"Gratis": "#EF553B", "Premium": "#636EFA"}
+        color_discrete_map={"Gratis": "#EF553B", "Premium": "#636EFA"} #Asignar colores rojo y azul
     )
-
+    # Paso 21: Agregar rotación a los títulos de barras
     fig.update_layout(xaxis_tickangle=-45)
+    # Paso 22: Agregar el gráfico, ajustar su anchura
+    st.plotly_chart(fig3, use_container_width=True)
 
-    st.plotly_chart(fig, use_container_width=True)
-
-    
 elif pagina_seleccionada == '🔍 Buscador':
+    # Paso 23: Agregar título, subtítulo y espaciado mediante markdown
     st.markdown("<h1 style='text-align: center;'>🎧 Las Mejores Canciones</h1>", unsafe_allow_html=True)
     st.markdown(f"<div style='text-align: center; font-size: 25px;'>{"Top 30 canciones 2023"}</div>", unsafe_allow_html=True)
     st.markdown(f"<div style='text-align: center; font-size: 70px;'>{""}</div>", unsafe_allow_html=True)
 
-    # Filtros
+    # Paso 24: Crear división en tres columnas
     col1, col2, col3 = st.columns(3)
-
+    # Paso 25: Crear caja de texto como buscador
     with col1:
-        nombre = st.text_input("🔍 Buscar por nombre de canción")
-
+        nombre = st.text_input("🔍 Buscar por nombre de canción") #busca por nombre de canción en el paso 29
+    # Paso 26: Crear buscador mediante selectbox (widget de selección)
     with col2:
-        artistas = sorted(SMostStreamed["artist_name"].unique().tolist())
+        artistas = sorted(SMostStreamed["artist_name"].unique().tolist()) #busca mediante nombre de artista(s) en el paso 29
         artista = st.selectbox("🎤 Filtrar por artista", options=["Todos"] + artistas)
-
+    # Paso 27: Crear buscador mediante selectbox (widget de selección)
     with col3:
-        años = sorted(SMostStreamed["released_year"].unique().tolist())
+        años = sorted(SMostStreamed["released_year"].unique().tolist()) #busca mediante año de lanzamiento en el paso 29
         año = st.selectbox("📅 Filtrar por año", options=["Todos"] + años)
 
-    # Filtrado
+    # Paso 28: Crear variable con el contenido del .xlsl
     resultados = SMostStreamed.copy()
-
+    
+    # Paso 29: Crear condicionales según cada buscador
     if nombre:
-        resultados = resultados[resultados["track_name"].str.contains(nombre, case=False, na=False)]
+        resultados = resultados[resultados["track_name"].str.contains(nombre, case=False, na=False)] #utilizar columna track_name para el buscador
 
     if artista != "Todos":
-        resultados = resultados[resultados["artist_name"] == artista]
+        resultados = resultados[resultados["artist_name"] == artista] #utilizar columna artist_name para el selectbox
 
     if año != "Todos":
-        resultados = resultados[resultados["released_year"] == año]
+        resultados = resultados[resultados["released_year"] == año] #utilizar columna released_year para el selectbox
 
-    # Mostrar resultados
+    # Paso 30: Mostrar resultados de las canciones
     st.markdown("### 🎵 Resultados")
 
+    # Paso 31: Crear condicional en caso de encontrar resultados
     if not resultados.empty:
         for _, row in resultados.iterrows():
             with st.container():
-                st.image(row["url_imagen"], width=100)
-                st.subheader(row["track_name"])
-                st.write(f"**Artista:** {row['artist_name']}")
-                st.write(f"**Año de lanzamiento:** {row['released_year']}")
-                st.write(f"**Reproducciones:** {row['streams']:,}")
-                st.markdown("---")
+                st.image(row["url_imagen"], width=100) #mostrar imagen con 100px de anchura
+                st.subheader(row["track_name"]) #mostrar nombre de la canción
+                st.write(f"**Artista:** {row['artist_name']}") #mostrar nombre del artista
+                st.write(f"**Año de lanzamiento:** {row['released_year']}") #mostrar año de lanzamiento
+                st.write(f"**Reproducciones:** {row['streams']:,}") #mostrar número de reproducciones
+                st.markdown("---") #separar canciones
+    # Paso 32: Finalizar condicional en caso de no encontrar resultados
     else:
         st.warning("No se encontraron resultados con los filtros aplicados.")
+        
 elif pagina_seleccionada == '🎮 Juego': 
+    # Paso 33: Interpretar 
     @st.cache_data
     def cargar_canciones(ruta):
         df = pd.read_excel(ruta, sheet_name="Hoja 1")
