@@ -16,89 +16,70 @@ SMostStreamed = pd.read_excel("MostStreamedSpotifySongs2023.xlsx")
 SUserBehavior = pd.read_excel("SpotifyUserBehaviorDataset.xlsx")
 
 # Paso 3: Crear páginas interactivas en el panel lateral del sitio web
-paginas = ['🏠 Inicio', '🔍 Buscador', 'Juego']
+paginas = ['🏠 Inicio', '🔍 Buscador', '🎮 Juego']
 pagina_seleccionada = st.sidebar.selectbox('Selecciona una página', paginas)
 
 # Paso 4: Hacemos condicionales con la selección del panel lateral
 if pagina_seleccionada == '🏠 Inicio':
+    # Paso 5: Crear título de la página y un párrafo
     st.markdown("<h1 style='text-align: center;'>SPOTIFY USER DATA 2023</h1>", unsafe_allow_html=True)
     textoinicio = """
     SPOTIFY USER DATA 2023 consiste en una plataforma informativa sobre los datos de los usuarios en Spotify.
     """
     st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textoinicio}</div>", unsafe_allow_html=True)
-
+    # Paso 6: Crear división en dos columnas
     col1,col2 = st.columns(2)
-    
     with col1:
-        # Contar ocurrencias por género
+        #Paso 7: Contar personas según género
         conteo_genero = SUserBehavior["genero"].value_counts().reset_index()
         conteo_genero.columns = ["Género", "Cantidad"]
 
-        # Crear gráfico circular
+        # Paso 8: Crear gráfico circular
         fig1 = px.pie(
             conteo_genero,
             names="Género",
             values="Cantidad",
             title="Distribución por género de usuarios",
         )
-        # Actualizamos las trazas para mostrar etiquetas dentro del gráfico
-        # 'textposition' define la posición del texto (dentro)
-        # 'textinfo' muestra el porcentaje y la etiqueta (nombre del país)
+        # Paso 9: Agregar etiquetas dentro del gráfico
         fig1.update_traces(textposition='inside', textinfo='percent+label')
-
+        # Paso 10: Mostrar el gráfico
         st.plotly_chart(fig1)
     with col2:
-        # Gráfico circular interactivo
-        # Contamos los tiempos de escucha por cada usuario
-        # 'value_counts' devuelve la frecuencia de cada valor en la columna 'momento_escucha_música'
-        # 'reset_index' convierte la serie resultante en un DataFrame
+        # Paso 10: Contar momentos de escucha de cada usuario y asignar columnas
         momentoescucha = SUserBehavior['momento_escucha_música'].value_counts().reset_index()
-
-        # Renombramos las columnas para mayor claridad
         momentoescucha.columns = ['Tiempo de escucha', 'Cantidad']
 
-        # Creamos un gráfico de torta (pie chart) con plotly express
+        # Paso 11: Crear grafico circular
         fig2 = px.pie(
-            momentoescucha,           # Datos de entrada (DataFrame)
-            names='Tiempo de escucha',          # La categoría que define las porciones
-            values='Cantidad',        # Tamaño de cada porción
-            title='Distribución de tiempo de escucha',  # Título del gráfico
-            color_discrete_sequence=px.colors.qualitative.Pastel  # Paleta de colores pastel para las porciones
+            momentoescucha,
+            names='Tiempo de escucha',
+            values='Cantidad',
+            title='Distribución de tiempo de escucha',
+            color_discrete_sequence=px.colors.qualitative.Pastel  #Asignar colores pastel
         )
-
-        # Actualizamos las trazas para mostrar etiquetas dentro del gráfico
-        # 'textposition' define la posición del texto (dentro)
-        # 'textinfo' muestra el porcentaje y la etiqueta (nombre del país)
+        # Paso 12: Agregar etiquetas dentro del gráfico
         fig2.update_traces(textposition='inside', textinfo='percent+label')
 
-        # Mostramos el gráfico interactivo
+        # Paso 13: Mostrar el gráfico
         st.plotly_chart(fig2)
-#------------------------grafico3------------------------
+    # Paso 14: Contar géneros musicales favoritos de los usuarios y asignar columnas
     conteo = SUserBehavior['género_musical_favorito'].value_counts().reset_index()
-
-    # Renombrar las columnas para que sean más descriptivas
     conteo.columns = ['Géneros preferidos', 'N° de usuarios']
-
-    # Seleccionar una paleta de colores pastel para el gráfico (colores discretos para categorías)
-    colores = px.colors.qualitative.Pastel
-
-    # Crear un gráfico de barras con Plotly Express
-    # - eje x: nombre de los géneros favoritos
-    # - eje y: cantidad de usuarios que prefieren el género
-    # - color: asigna un color distinto a cada barra según la escudería
+    # Paso 15: Crear gráfico de barras
     fig3 = px.bar(
         conteo,
         x='Géneros preferidos',
         y='N° de usuarios',
         title='Cantidad de usuarios según géneros musicales preferidos',
         color='Géneros preferidos',
-        color_discrete_sequence=colores
+        color_discrete_sequence=px.colors.qualitative.Pastel #Asignar colores pastel
     )
 
-    # Mostrar el gráfico interactivo
+    # Paso 16: Mostrar el gráfico
     st.plotly_chart(fig3)
-#----------------------grafico 4-----------------------
-    # Clasificar tipo de plan: Gratis o Premium
+
+    # Paso 17: 
     SUserBehavior["tipo_plan"] = SUserBehavior["plan_spotify"].apply(
         lambda x: "Gratis" if "Gratis" in x else "Premium"
     )
@@ -177,7 +158,7 @@ elif pagina_seleccionada == '🔍 Buscador':
                 st.markdown("---")
     else:
         st.warning("No se encontraron resultados con los filtros aplicados.")
-elif pagina_seleccionada == 'Juego': 
+elif pagina_seleccionada == '🎮 Juego': 
     @st.cache_data
     def cargar_canciones(ruta):
         df = pd.read_excel(ruta, sheet_name="Hoja 1")
