@@ -189,12 +189,12 @@ elif pagina_seleccionada == '🔍 Buscador':
 
 #siguiente página del panel lateral
 elif pagina_seleccionada == '🎮 Juego': 
-    # Paso 38: Agregar cache de streamlit y cargar canciones del .xlsx
+    # Paso 38: Utilizar cache de streamlit y cargar canciones del .xlsx
     @st.cache_data
     def cargar_canciones(ruta):
-        df = pd.read_excel(ruta, sheet_name="Hoja 1")
-        df = df[["track_name", "artist_name"]].dropna()
-        return df.to_dict(orient="records")
+        df = pd.read_excel(ruta, sheet_name="Hoja 1") #Leer la hoja 1 del excel
+        df = df[["track_name", "artist_name"]].dropna() # Seleccionar columnas a utilizar
+        return df.to_dict(orient="records") #Convertir a diccionarios
         
     # Paso 39: Crear nueva partida con canción aleatoria
     def nueva_partida(canciones):
@@ -205,21 +205,21 @@ elif pagina_seleccionada == '🎮 Juego':
         st.session_state.intentos = 6 # asignar número de intentos
         st.session_state.estado = "jugando" # establecer estado como "jugando"
 
-    # Paso 40: Mostrar palabra actual
+    # Paso 40: Mostrar palabra actual 
     def palabra_actual(titulo, adivinadas):
-        resultado = ""
+        resultado = "" # Crear variable para la palabra
         for letra in titulo:
-            if not letra.isalpha():         # muestra espacios y signos tal cual
-                resultado += letra
-            elif letra in adivinadas:
+            if not letra.isalpha(): # muestra espacios y signos tal cual
+                resultado += letra 
+            elif letra in adivinadas: # muestra letras adivinadas mediante la suma
                 resultado += letra
             else:
-                resultado += "_"
-        return resultado
+                resultado += "_" #no cambia el guion si no es letra correcta
+        return resultado # muestra palabra
 
-    # Procesar entrada del usuario
+    # Paso 41: Procesar entrada del usuario
     def procesar_entrada(entrada):
-        entrada = entrada.strip().upper()
+        entrada = entrada.strip().upper() 
         titulo = st.session_state.titulo
         adivinadas = st.session_state.adivinadas
 
