@@ -130,7 +130,9 @@ if pagina_seleccionada == '🏠 Inicio':
     st.plotly_chart(fig3, use_container_width=True)
     # Paso 27: Agregar interpretación del grafico
     textograf4 = """
-    texto de ejemplo
+    A partir del gráfico, se puede evidenciar una mayor fidelización entre los usuarios que acceden gratuitamente a Spotify en comparación con aquellos que cuentan con un plan Premium. Esto se debe a que, a pesar de las limitaciones de la versión gratuita —como los anuncios y la reproducción aleatoria—, muchos usuarios valoran la posibilidad de acceder sin costo a un amplio catálogo musical. Esta accesibilidad favorece una conexión constante con la plataforma, lo que contribuye a generar hábitos de uso sostenidos en el tiempo. Además, elementos como la facilidad de navegación, la creación automática de playlists y las recomendaciones personalizadas influyen en que estos usuarios se mantengan activos sin necesidad de pagar por el servicio.
+
+Por otro lado, los usuarios Premium, aunque disfrutan de una experiencia optimizada y sin interrupciones, representan una proporción menor dentro del total de usuarios. No obstante, es importante destacar que la mayoría de quienes cuentan con esta suscripción llevan más de dos años en la plataforma, lo que refleja un alto nivel de compromiso y satisfacción tras un uso prolongado. Esto sugiere que, si bien el modelo gratuito capta a más usuarios, el modelo Premium logra consolidar una base leal a largo plazo.
     """
     st.markdown(f"<div style='text-align: justify; font-size: 18px;'>{textograf4}</div>", unsafe_allow_html=True)
 
