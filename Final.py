@@ -243,7 +243,7 @@ elif pagina_seleccionada == '🎮 Juego':
                 st.session_state.estado = "ganado" #aviso juego ganado
                 st.session_state.adivinadas.extend([letra for letra in titulo if letra.isalpha()]) #rellenar el nombre de la canción
             else:
-                st.session_state.intentos -= 6 #restar todos los intentos
+                st.session_state.intentos -= 1 #restar 1 intentos
                 st.error("Título incorrecto.") #aviso título incorrecto
 
         # Paso 43: Verificar fin del juego
